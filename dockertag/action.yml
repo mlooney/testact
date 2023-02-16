@@ -1,0 +1,19 @@
+name: Kinetic Tags
+description: Figures out standard version stamps for Kinetic apps using github actions
+outputs:
+  tag:
+    description: Final docker image tag
+    value: ${{ steps.tag.outputs.tag }}
+runs:
+  using: "composite"
+  steps:
+    - id: tag
+      run: |
+        regx="v[0-9]+\.[0-9]+\.[0-9]+.*"
+        shortname=$(echo ${GITHUB_REF_NAME} | rev | cut -d / -f 1 | rev | sed 's/^v//')
+        if [[ "${shortname}" =~ $regx ]]; then
+          echo "tag=${shortname}" >> "${shortname}"  >> "${GITHUB_OUTPUT}"
+        else
+          echo "tag=${shortname}-$(date +'%Y%m%d').${GITHUB_SHA:0:7}" >> "${GITHUB_OUTPUT}"
+        fi
+      shell: bash
