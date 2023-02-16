@@ -14,6 +14,6 @@ runs:
         if [[ "${GITHUB_REF_NAME}" =~ $regx ]]; then
           echo "tag=${shortname}" >> "${shortname}"  >> "${GITHUB_OUTPUT}"
         else
-          echo "tag=${shortname}-$(date +'%Y%m%d').${GITHUB_SHA:0:7}" >> "${GITHUB_OUTPUT}"
+          echo "tag=$(date +'%Y%m%d')-${GITHUB_SHA:0:7}" >> "${GITHUB_OUTPUT}"
         fi
       shell: bash
